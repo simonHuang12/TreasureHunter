@@ -1,8 +1,6 @@
-import java.util.Objects;
-
 /**
  * The Town Class is where it all happens.
- * The Town is designed to manage all of the things a Hunter can do in town.
+ * The Town is designed to manage all the things a Hunter can do in town.
  * This code has been adapted from Ivan Turner's original program -- thank you Mr. Turner!
  */
 public class Town
@@ -13,8 +11,9 @@ public class Town
     private Terrain terrain;
     private String printMessage;
     private boolean toughTown;
-
-    private static String[] treasureList;
+    private Treasure treasure;
+    //0 default, 1 win, 2 lose
+    private int winCondition;
 
     //Constructor
     /**
@@ -35,13 +34,16 @@ public class Town
 
         // higher toughness = more likely to be a tough town
         toughTown = (Math.random() < toughness);
-
-        treasureList = new String[]{"t1", "t2", "t3", "t4", "t5"};
+        treasure = new Treasure();
+        winCondition = 0;
     }
 
     public String getLatestNews()
     {
         return printMessage;
+    }
+    public int getWinCondition(){
+        return winCondition;
     }
 
     /**
@@ -97,37 +99,35 @@ public class Town
      * The chances of finding a fight and winning the gold are based on the toughness of the town.<p>
      * The tougher the town, the easier it is to find a fight, and the harder it is to win one.
      */
-    public void lookForTrouble()
-    {
+    public void lookForTrouble() {
         double noTroubleChance;
-        if (toughTown)
-        {
+        if (toughTown) {
             noTroubleChance = 0.66;
-        }
-        else
-        {
+        } else {
             noTroubleChance = 0.33;
         }
 
-        if (Math.random() > noTroubleChance)
-        {
+        if (Math.random() > noTroubleChance) {
             printMessage = "You couldn't find any trouble";
-        }
-        else
-        {
+        } else {
             printMessage = "You want trouble, stranger!  You got it!\nOof! Umph! Ow!\n";
-            int goldDiff = (int)(Math.random() * 1000) + 1;
-            if (Math.random() > noTroubleChance)
-            {
+            int goldDiff = (int) (Math.random() * 10) + 1;
+            if (Math.random() > noTroubleChance) {
                 printMessage += "Okay, stranger! You proved yer mettle. Here, take my gold.";
-                printMessage += "\nYou won the brawl and receive " +  goldDiff + " gold.";
+                printMessage += "\nYou won the brawl and receive " + goldDiff + " gold.";
                 hunter.changeGold(goldDiff);
-            }
-            else
-            {
-                printMessage += "That'll teach you to go lookin' fer trouble in MY town! Now pay up!";
-                printMessage += "\nYou lost the brawl and pay " +  goldDiff + " gold.";
-                hunter.changeGold(-1 * goldDiff);
+            } else {
+                if (hunter.getGold() - goldDiff < 0) {
+                    printMessage += "What?! You're too broke to pay up? Guess your time is up";
+                    winCondition = 2;
+                } else {
+                    {
+                        printMessage += "That'll teach you to go lookin' fer trouble in MY town! Now pay up!";
+                        printMessage += "\nYou lost the brawl and pay " + goldDiff + " gold.";
+                        hunter.changeGold(-1 * goldDiff);
+                    }
+                }
+
             }
         }
     }
@@ -168,7 +168,7 @@ public class Town
     }
 
     /**
-     * Determines whether or not a used item has broken.
+     * Determines whether a used item has broken.
      * @return true if the item broke.
      */
     private boolean checkItemBreak()
@@ -176,22 +176,17 @@ public class Town
         double rand = Math.random();
         return (rand < 0.5);
     }
-
-    /**
-     * Lets the hunter search for treasure
-     */
     public void huntForTreasure(){
-        double chance = .2;
-        String treasureObtained = "";
-        if (Math.random() <= chance){
-            treasureObtained = treasureList[(int)(Math.random()*4)+1];
+        String treasureStr = treasure.getType();
+        printMessage = "You search the town for treasure... and find" + treasureStr;
+        if (treasureStr.equals(Treasure.DUST)){
+            printMessage += ("\nAhhhchoo! That dust is mighty dusty, and it's certainly no treasure!");
+        }else if (hunter.collectTreasure(treasure)) {
+                printMessage += ("\nThat's a new one! You pick it up and add it to your treasure collection.");
+        }else if (Treasure.collectionHasAllTreasures(hunter.getTreasureCollection())) {
+            winCondition = 1;
+        } else {
+            printMessage += ("\nYou have one of those already, who needs two?! You put it back.");
         }
-        if (!Objects.equals(treasureObtained, "")){
-            System.out.println("You found "+treasureObtained+"!");
-        }else {
-            System.out.println("You found nothing! Better luck next time!");
-        }
-
-
     }
 }

@@ -7,10 +7,12 @@ public class Hunter
 {
     //Keeps the items in the kit separate
     private static final String KIT_DELIMITER = ";";
+    private static  final String DELIMITER = ";";
 
     //instance variables
     private String hunterName;
     private String kit;
+    private String treasureCollection;
     private int gold;
 
     //Constructor
@@ -24,6 +26,7 @@ public class Hunter
         this.hunterName = hunterName;
         kit = "";
         gold = startingGold;
+        treasureCollection = "";
     }
 
     //Accessors
@@ -40,6 +43,9 @@ public class Hunter
     public int getGold()
     {
         return gold;
+    }
+    public String getTreasureCollection(){
+        return treasureCollection;
     }
 
     public void changeGold(int modifier)
@@ -61,7 +67,7 @@ public class Hunter
      */
     public boolean buyItem(String item, int costOfItem)
     {
-        if (costOfItem == 0 || gold < costOfItem || hasItemInKit(item))
+        if (costOfItem == 0 || gold < costOfItem || hasItem(item, kit))
         {
             return false;
         }
@@ -81,7 +87,7 @@ public class Hunter
      */
     public boolean sellItem(String item, int buyBackPrice)
     {
-        if (buyBackPrice <= 0 || !hasItemInKit(item))
+        if (buyBackPrice <= 0 || !hasItem(item, kit))
         {
             return false;
         }
@@ -122,9 +128,28 @@ public class Hunter
      */
     private boolean addItem(String item)
     {
-        if (!hasItemInKit(item))
+        if (!hasItem(item, kit))
         {
             kit += item + KIT_DELIMITER;
+            return true;
+        }
+
+        return false;
+    }
+    /**
+     * Checks to make sure that the treasure has not already been collected.
+     * If not, it adds an item to the end of the String representing the hunter's treasure collection.<br /><br />
+     * A DELIMITER character is added to the end of the of String.
+     *
+     * @param treasure The treasure to be added to the kit.
+     * @returns true if the treasure is not in the treasure collection and has been added.
+     */
+    public boolean collectTreasure(Treasure treasure)
+    {
+        String item = treasure.getType();
+        if (!hasItem(item, treasureCollection))
+        {
+            treasureCollection += item + DELIMITER;
             return true;
         }
 
@@ -138,17 +163,36 @@ public class Hunter
      *
      * @return true if the item is found.
      */
-    public boolean hasItemInKit(String item)
-    {
+    public boolean hasItemInKit(String item) {
         int placeholder = 0;
 
-        while (placeholder < kit.length() - 1)
-        {
+        while (placeholder < kit.length() - 1) {
             int endOfItem = kit.indexOf(KIT_DELIMITER, placeholder);
             String tmpItem = kit.substring(placeholder, endOfItem);
             placeholder = endOfItem + 1;
-            if (tmpItem.equalsIgnoreCase(item))
-            {
+            if (tmpItem.equals(item)) {
+                // early return
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Searches the inventory String for a specified item.
+     *
+     * @param item The search item
+     *
+     * @return true if the item is found.
+     */
+    public boolean hasItem(String item, String inventory) {
+        int placeholder = 0;
+
+        while (placeholder < inventory.length() - 1) {
+            int endOfItem = inventory.indexOf(KIT_DELIMITER, placeholder);
+            String tmpItem = inventory.substring(placeholder, endOfItem);
+            placeholder = endOfItem + 1;
+            if (tmpItem.equals(item)) {
                 // early return
                 return true;
             }
@@ -163,17 +207,21 @@ public class Hunter
      */
     public String getInventory()
     {
-        String printableKit = kit;
+        return replaceDelimiter(kit);
+    }
+    public String getTreasures(){
+        return replaceDelimiter(treasureCollection);
+    }
+    private String replaceDelimiter(String str){
+        String updatedStr = str;
         String space = " ";
-
         int index = 0;
 
-        while (printableKit.contains(KIT_DELIMITER))
-        {
-            index = printableKit.indexOf(KIT_DELIMITER);
-            printableKit = printableKit.substring(0, index) + space + printableKit.substring(index + 1);
+        while (updatedStr.contains(DELIMITER)){
+            index = updatedStr.indexOf(DELIMITER);
+            updatedStr = updatedStr.substring(0, index)+space+updatedStr.substring(index+1);
         }
-        return printableKit;
+        return updatedStr;
     }
 
     /**
@@ -185,6 +233,15 @@ public class Hunter
         if (!kit.equals(""))
         {
             str += " and " + getInventory();
+        }else{
+            str += "none";
+        }
+
+        str += "\nTreasures collected: ";
+        if (!treasureCollection.equals("")){
+            str += getTreasures();
+        }else{
+            str += "none";
         }
         return str;
     }
