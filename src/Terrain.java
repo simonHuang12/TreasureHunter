@@ -32,7 +32,7 @@ public class Terrain
 
     /**
      * Guards against a hunter crossing the zone without the proper item.
-     * Searches the hunter's inventory for the proper item and determines whether or not the hunter can cross.
+     * Searches the hunter's inventory for the proper item and determines whether the hunter can cross.
      *
      * @param hunter The Hunter object trying to cross the terrain.
      * @returns  true if the Hunter has the proper item.

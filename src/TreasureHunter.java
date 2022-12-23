@@ -47,7 +47,7 @@ public class TreasureHunter
         String name = scanner.nextLine();
 
         // set hunter instance variable
-        hunter = new Hunter(name, 10);
+        hunter = new Hunter(name, 100000);
 
         System.out.print("Hard mode? (y/n): ");
         String hard = scanner.nextLine();
@@ -74,7 +74,7 @@ public class TreasureHunter
         }
 
         // note that we don't need to access the Shop object
-        // outside of this method, so it isn't necessary to store it as an instance
+        // outside this method, so it isn't necessary to store it as an instance
         // variable; we can leave it as a local variable
         Shop shop = new Shop(markdown);
 
@@ -99,7 +99,7 @@ public class TreasureHunter
     {
         Scanner scanner = new Scanner(System.in);
         String choice = "";
-        int winCondition = currentTown.getWinCondition();
+        int winCondition;
 
         while (!(choice.equals("X") || choice.equals("x")))
         {

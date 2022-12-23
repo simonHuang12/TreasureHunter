@@ -6,7 +6,7 @@
 public class Town
 {
     //instance variables
-    private Hunter hunter;
+    public Hunter hunter;
     private Shop shop;
     private Terrain terrain;
     private String printMessage;
@@ -79,7 +79,13 @@ public class Town
             if (checkItemBreak())
             {
                 hunter.removeItemFromKit(item);
-                printMessage += "\nUnfortunately, your " + item + " broke.";
+                if (item.equalsIgnoreCase("water")) {
+                    printMessage += "\nUnfortunately, your " + item + " was used up.";
+                }else if (item.equalsIgnoreCase("horse")){
+                    printMessage += "\nUnfortunately, your " + item + " ran away.";
+                }else {
+                    printMessage += "\nUnfortunately, your " + item + " broke.";
+                }
             }
 
             return true;
@@ -177,16 +183,27 @@ public class Town
         return (rand < 0.5);
     }
     public void huntForTreasure(){
+        double chance = .5;
+        if (toughTown) {
+            chance = .7;
+        }
         String treasureStr = treasure.getType();
-        printMessage = "You search the town for treasure... and find" + treasureStr;
-        if (treasureStr.equals(Treasure.DUST)){
-            printMessage += ("\nAhhhchoo! That dust is mighty dusty, and it's certainly no treasure!");
-        }else if (hunter.collectTreasure(treasure)) {
+        if (Math.random()>chance){
+            printMessage = "You search the town for treasure... and found " + treasureStr;
+            if (treasureStr.equals(Treasure.DUST)) {
+                printMessage += ("\nAhhhchoo! That dust is mighty dusty, and it's certainly no treasure!");
+            }
+            if (hunter.collectTreasure(treasure)) {
                 printMessage += ("\nThat's a new one! You pick it up and add it to your treasure collection.");
-        }else if (Treasure.collectionHasAllTreasures(hunter.getTreasureCollection())) {
-            winCondition = 1;
-        } else {
-            printMessage += ("\nYou have one of those already, who needs two?! You put it back.");
+            }else if (Treasure.collectionHasAllTreasures(hunter.getTreasureCollection())) {
+                winCondition = 1;
+            } else {
+                printMessage += ("\nYou have one of those already, who needs two?! You sold the extra.");
+                hunter.changeGold(8);
+            }
+        }else{
+            System.out.println("You ran into a trap! You lose some gold while trying to escape.");
+            hunter.changeGold((int)(Math.random()*9)+1);
         }
     }
 }

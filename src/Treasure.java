@@ -8,7 +8,7 @@ public class Treasure
     private String type;
     public Treasure()
     {
-        int random = (int) (Math.random() * 3) + 1;
+        int random = (int) (Math.random() * 7) + 1;
         if (random == 1)
         {
             type = GEM;
@@ -21,7 +21,7 @@ public class Treasure
         {
             type = CROWN;
         }
-        else if (random == 4)
+        else if (random >= 4)
         {
             type = DUST;
         }

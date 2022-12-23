@@ -170,7 +170,7 @@ public class Hunter
             int endOfItem = kit.indexOf(KIT_DELIMITER, placeholder);
             String tmpItem = kit.substring(placeholder, endOfItem);
             placeholder = endOfItem + 1;
-            if (tmpItem.equals(item)) {
+            if (tmpItem.equalsIgnoreCase(item)) {
                 // early return
                 return true;
             }
@@ -192,7 +192,7 @@ public class Hunter
             int endOfItem = inventory.indexOf(KIT_DELIMITER, placeholder);
             String tmpItem = inventory.substring(placeholder, endOfItem);
             placeholder = endOfItem + 1;
-            if (tmpItem.equals(item)) {
+            if (tmpItem.equalsIgnoreCase(item)) {
                 // early return
                 return true;
             }
@@ -232,9 +232,9 @@ public class Hunter
         String str = hunterName + " has " + gold + " gold";
         if (!kit.equals(""))
         {
-            str += " and " + getInventory();
+            str += " and a(n) " + getInventory();
         }else{
-            str += "none";
+            str += " and nothing else";
         }
 
         str += "\nTreasures collected: ";
