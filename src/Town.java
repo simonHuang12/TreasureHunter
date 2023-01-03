@@ -129,7 +129,7 @@ public class Town
                 } else {
                     {
                         printMessage += "That'll teach you to go lookin' fer trouble in MY town! Now pay up!";
-                        printMessage += "\nYou lost the brawl and pay " + goldDiff + " gold.";
+                        printMessage += "\nYou lost the brawl and paid " + goldDiff + " gold.";
                         hunter.changeGold(-1 * goldDiff);
                     }
                 }
@@ -192,18 +192,18 @@ public class Town
             printMessage = "You search the town for treasure... and found " + treasureStr;
             if (treasureStr.equals(Treasure.DUST)) {
                 printMessage += ("\nAhhhchoo! That dust is mighty dusty, and it's certainly no treasure!");
-            }
-            if (hunter.collectTreasure(treasure)) {
-                printMessage += ("\nThat's a new one! You pick it up and add it to your treasure collection.");
-            }else if (Treasure.collectionHasAllTreasures(hunter.getTreasureCollection())) {
-                winCondition = 1;
-            } else {
-                printMessage += ("\nYou have one of those already, who needs two?! You sold the extra.");
-                hunter.changeGold(8);
+            }else {
+                if (hunter.collectTreasure(treasure)) {
+                    printMessage += ("\nThat's a new one! You pick it up and add it to your treasure collection.");
+                } else if (Treasure.collectionHasAllTreasures(hunter.getTreasureCollection())) {
+                    winCondition = 1;
+                } else {
+                    printMessage += ("\nYou have one of those already, who needs two?! You discarded the extra.");
+                }
             }
         }else{
             System.out.println("You ran into a trap! You lose some gold while trying to escape.");
-            hunter.changeGold((int)(Math.random()*9)+1);
+            hunter.changeGold(-1*(int)(Math.random()*9)+1);
         }
     }
 }
