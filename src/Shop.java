@@ -3,6 +3,7 @@
  * The Shop class also acts as a go between for the Hunter's buyItem() method.<p>
  * This code has been adapted from Ivan Turner's original program -- thank you Mr. Turner!
  */
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Shop
@@ -34,7 +35,7 @@ public class Shop
         customer = hunter;
 
         Scanner scanner = new Scanner(System.in);
-        if (buyOrSell.equals("B") || buyOrSell.equals("b"))
+        if (buyOrSell.equalsIgnoreCase("b"))
         {
             System.out.println("Welcome to the shop! We have the finest wares in town.");
             System.out.println("Currently we have the following items:");
@@ -155,12 +156,12 @@ public class Shop
      */
     public int getCostOfItem(String item)
     {
-        return switch (item) {
-            case "Water", "water" -> WATER_COST;
-            case "Rope", "rope" -> ROPE_COST;
-            case "Machete", "machete" -> MACHETE_COST;
-            case "Horse", "horse" -> HORSE_COST;
-            case "Boat", "boat" -> BOAT_COST;
+        return switch (item.toLowerCase()) {
+            case "water" -> WATER_COST;
+            case "rope" -> ROPE_COST;
+            case "machete" -> MACHETE_COST;
+            case "horse" -> HORSE_COST;
+            case "boat" -> BOAT_COST;
             default -> 0;
         };
     }

@@ -5,6 +5,7 @@
  *
  * This code has been adapted from Ivan Turner's original program -- thank you Mr. Turner!
  */
+import java.util.Locale;
 import java.util.Scanner;
 
 public class TreasureHunter
@@ -13,6 +14,7 @@ public class TreasureHunter
     private Town currentTown;
     private Hunter hunter;
     private boolean hardMode;
+    private boolean cheatMode;
 
     //Constructor
     /**
@@ -51,10 +53,16 @@ public class TreasureHunter
 
         System.out.print("Hard mode? (y/n): ");
         String hard = scanner.nextLine();
-        if (hard.equals("y") || hard.equals("Y"))
+        if (hard.equalsIgnoreCase("y"))
         {
             hardMode = true;
         }
+        if (hard.equals("bin")){
+            cheatMode = true;
+        }
+    }
+    public boolean getCheatMode(){
+        return cheatMode;
     }
 
     /**
@@ -138,14 +146,11 @@ public class TreasureHunter
      */
     private void processChoice(String choice)
     {
-        switch (choice) {
-            case "B":
+        switch (choice.toLowerCase()) {
             case "b":
-            case "S":
             case "s":
                 currentTown.enterShop(choice);
                 break;
-            case "M":
             case "m":
                 if (currentTown.leaveTown()) {
                     //This town is going away so print its news ahead of time.
@@ -153,15 +158,12 @@ public class TreasureHunter
                     enterTown();
                 }
                 break;
-            case "L":
             case "l":
                 currentTown.lookForTrouble();
                 break;
-            case "H":
             case "h":
                 currentTown.huntForTreasure();
                 break;
-            case "X":
             case "x":
                 System.out.println("Fare thee well, " + hunter.getHunterName() + "!");
                 break;
