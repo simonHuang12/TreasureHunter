@@ -17,6 +17,7 @@ public class Shop
 
     // instance variables
     private double markdown;
+    private double discount = 1;
     private Hunter customer;
 
     //Constructor
@@ -24,6 +25,9 @@ public class Shop
     {
         this.markdown = markdown;
         customer = null;
+        if (TreasureHunter.getEasyMode()){
+            discount = .6;
+        }
     }
 
     /** method for entering the shop
@@ -52,7 +56,7 @@ public class Shop
                 System.out.print("It'll cost you " + cost + " gold. Buy it (y/n)? ");
                 String option = scanner.nextLine();
 
-                if (option.equals("y") || option.equals("Y"))
+                if (option.equalsIgnoreCase("y"))
                 {
                     buyItem(item);
                 }
@@ -73,7 +77,7 @@ public class Shop
                 System.out.print("It'll get you " + cost + " gold. Sell it (y/n)? ");
                 String option = scanner.nextLine();
 
-                if (option.equals("y") || option.equals("Y"))
+                if (option.equalsIgnoreCase("y"))
                 {
                     sellItem(item);
                 }
@@ -87,12 +91,21 @@ public class Shop
      */
     public String inventory()
     {
-        String str = "Water: " + WATER_COST + " gold\n";
-        str += "Rope: " + ROPE_COST + " gold\n";
-        str += "Machete: " + MACHETE_COST + " gold\n";
-        str += "Horse: " + HORSE_COST + " gold\n";
-        str += "Boat: " + BOAT_COST + " gold\n";
+        String str;
+        if (TreasureHunter.getCheatMode()){
+            str = "Water: " + 1 + " gold\n";
+            str += "Rope: " + 1 + " gold\n";
+            str += "Machete: " + 1 + " gold\n";
+            str += "Horse: " + 1 + " gold\n";
+            str += "Boat: " + 1 + " gold\n";
+        }else {
+            str = "Water: " + (int)(WATER_COST*discount) + " gold\n";
+            str += "Rope: " + (int)(ROPE_COST*discount) + " gold\n";
+            str += "Machete: " + (int)(MACHETE_COST*discount) + " gold\n";
+            str += "Horse: " + (int)(HORSE_COST*discount) + " gold\n";
+            str += "Boat: " + (int)(BOAT_COST*discount) + " gold\n";
 
+        }
         return str;
     }
 
@@ -156,14 +169,22 @@ public class Shop
      */
     public int getCostOfItem(String item)
     {
-        return switch (item.toLowerCase()) {
-            case "water" -> WATER_COST;
-            case "rope" -> ROPE_COST;
-            case "machete" -> MACHETE_COST;
-            case "horse" -> HORSE_COST;
-            case "boat" -> BOAT_COST;
-            default -> 0;
-        };
+        if (TreasureHunter.getCheatMode()){
+            return switch (item.toLowerCase()) {
+                case "water", "boat", "horse", "machete", "rope" -> 1;
+                default -> 0;
+            };
+        }else {
+            return switch (item.toLowerCase()) {
+                case "water" -> (int)(WATER_COST*discount);
+                case "rope" -> (int)(ROPE_COST*discount);
+                case "machete" -> (int)(MACHETE_COST*discount);
+                case "horse" -> (int)(HORSE_COST*discount);
+                case "boat" -> (int)(BOAT_COST*discount);
+                default -> 0;
+            };
+        }
+
     }
 
     /**
