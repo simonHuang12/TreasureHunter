@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bd88710-252a-4906-9ede-2d456034f437" name="Changes" comment="fixed hunt for treasure">
+    <list default="true" id="3bd88710-252a-4906-9ede-2d456034f437" name="Changes" comment="th 2 and 7">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Hunter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hunter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Shop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Terrain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Town.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Town.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/TreasureHunter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TreasureHunter.java" afterDir="false" />
     </list>
@@ -85,7 +87,35 @@
       <option name="project" value="LOCAL" />
       <updated>1672842741022</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="th 2 and 7">
+      <created>1672928722519</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1672928722519</updated>
+    </task>
+    <task id="LOCAL-00004" summary="th 2 and 7">
+      <created>1672928871535</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1672928871535</updated>
+    </task>
+    <task id="LOCAL-00005" summary="th 2 and 7">
+      <created>1672928877416</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1672928877416</updated>
+    </task>
+    <task id="LOCAL-00006" summary="th 2 and 7">
+      <created>1672928919373</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1672928919373</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -101,6 +131,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fixed hunt for treasure" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed hunt for treasure" />
+    <MESSAGE value="th 2 and 7" />
+    <option name="LAST_COMMIT_MESSAGE" value="th 2 and 7" />
   </component>
 </project>

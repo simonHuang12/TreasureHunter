@@ -72,7 +72,7 @@ public class Town
     public boolean leaveTown()
     {
         boolean canLeaveTown = terrain.canCrossTerrain(hunter);
-        if (TreasureHunter.getEasyMode()||TreasureHunter.getCheatMode()){
+        if (TreasureHunter.isEasyMode()||TreasureHunter.isCheatMode()){
             System.out.println("You left town without any difficulties.");
             return true;
         }
@@ -110,45 +110,38 @@ public class Town
      * The tougher the town, the easier it is to find a fight, and the harder it is to win one.
      */
     public void lookForTrouble() {
+        String printMsg = "";
         double noTroubleChance;
-        double easy = 0;
         if (toughTown) {
             noTroubleChance = 0.66;
-            easy = 1;
-        }else{
-            noTroubleChance = 0.33;
-            if (TreasureHunter.getEasyMode()) {
-                easy = 0.75;
-            }
-        }
-        if (Math.random() > noTroubleChance) {
-            printMessage = "You couldn't find any trouble";
         } else {
-            printMessage = "You want trouble, stranger!  You got it!\nOof! Umph! Ow!\n";
-            int goldDiff = (int) (Math.random() * 10) + 1;
-            if (TreasureHunter.getCheatMode()) {
-                printMessage += "Okay, stranger! You proved yer mettle. Here, take my gold.";
-                printMessage += "\nYou won the brawl and receive " + 100 + " gold.";
-                hunter.changeGold(100);
+            noTroubleChance = 0.33;
+        }
+
+        if (Math.random() > noTroubleChance && !TreasureHunter.isCheatMode()) {
+            System.out.println("You couldn't find any trouble");
+        } else {
+            printMsg = "You want trouble, stranger! You got it!\nOof! Umph! Ow!\n\n";
+            int goldDiff = TreasureHunter.isCheatMode() ? 100 : (int) (Math.random() * 10) + 1;
+            if (TreasureHunter.isEasyMode()){
+                goldDiff *= 1.5;
+            }
+            if (Math.random() > noTroubleChance || TreasureHunter.isCheatMode()) {
+                printMsg += "Okay, stranger! You proved yer mettle. Here, take my gold.";
+                printMsg += "\n\nYou won the brawl and receive " + goldDiff + " gold.";
+                hunter.changeGold(goldDiff);
             } else {
-                if (Math.random() > noTroubleChance*easy) {
-                    printMessage += "Okay, stranger! You proved yer mettle. Here, take my gold.";
-                    printMessage += "\nYou won the brawl and receive " + (int)(goldDiff/easy) + " gold.";
-                    hunter.changeGold((int)(goldDiff/easy));
-                } else {
-                    if (hunter.getGold() - goldDiff < 0) {
-                        printMessage += "What?! You're too broke to pay up? Guess your time is up";
-                        winCondition = 2;
-                    } else {
-                        {
-                            printMessage += "That'll teach you to go lookin' fer trouble in MY town! Now pay up!";
-                            printMessage += "\nYou lost the brawl and paid " + goldDiff + " gold.";
-                            hunter.changeGold(-1 * goldDiff);
-                        }
-                    }
+                printMsg += "That'll teach you to go lookin' fer trouble in MY town! Now pay up!";
+                printMsg += "\n\nYou lost the brawl and paid " + goldDiff + " gold.";
+                if (hunter.getGold() - goldDiff < 0){
+                    printMessage += "What?! You're too broke to pay up? Guess your time is up";
+                    winCondition = 2;
                 }
+                hunter.changeGold(-1 * goldDiff);
             }
         }
+        System.out.println(printMsg);
+
     }
 
     public String toString()
@@ -164,25 +157,27 @@ public class Town
     private Terrain getNewTerrain()
     {
         double rnd = Math.random();
-        if (rnd < .2)
+        if (rnd < 1.0/6)
         {
             return new Terrain("Mountains", "Rope");
         }
-        else if (rnd < .4)
+        else if (rnd < 2.0/6)
         {
             return new Terrain("Ocean", "Boat");
         }
-        else if (rnd < .6)
+        else if (rnd < 3.0/6)
         {
             return new Terrain("Plains", "Horse");
         }
-        else if (rnd < .8)
+        else if (rnd < 4.0/6)
         {
             return new Terrain("Desert", "Water");
         }
-        else
+        else if (rnd < 5.0/6)
         {
             return new Terrain("Jungle", "Machete");
+        }else {
+            return new Terrain("Tundra", "Parka");
         }
     }
 

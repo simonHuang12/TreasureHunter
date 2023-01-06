@@ -12,6 +12,7 @@ public class Shop
     private static final int WATER_COST = 2;
     private static final int ROPE_COST = 4;
     private static final int MACHETE_COST = 6;
+    private static  final int PARKA_COST = 8;
     private static final int HORSE_COST = 12;
     private static final int BOAT_COST = 20;
 
@@ -25,7 +26,7 @@ public class Shop
     {
         this.markdown = markdown;
         customer = null;
-        if (TreasureHunter.getEasyMode()){
+        if (TreasureHunter.isEasyMode()){
             discount = .6;
         }
     }
@@ -92,16 +93,18 @@ public class Shop
     public String inventory()
     {
         String str;
-        if (TreasureHunter.getCheatMode()){
+        if (TreasureHunter.isCheatMode()){
             str = "Water: " + 1 + " gold\n";
             str += "Rope: " + 1 + " gold\n";
             str += "Machete: " + 1 + " gold\n";
+            str += "Parka: " + 1 + " gold\n";
             str += "Horse: " + 1 + " gold\n";
             str += "Boat: " + 1 + " gold\n";
         }else {
             str = "Water: " + (int)(WATER_COST*discount) + " gold\n";
             str += "Rope: " + (int)(ROPE_COST*discount) + " gold\n";
             str += "Machete: " + (int)(MACHETE_COST*discount) + " gold\n";
+            str += "Parka: " + (int)(PARKA_COST*discount) + " gold\n";
             str += "Horse: " + (int)(HORSE_COST*discount) + " gold\n";
             str += "Boat: " + (int)(BOAT_COST*discount) + " gold\n";
 
@@ -169,9 +172,9 @@ public class Shop
      */
     public int getCostOfItem(String item)
     {
-        if (TreasureHunter.getCheatMode()){
+        if (TreasureHunter.isCheatMode()){
             return switch (item.toLowerCase()) {
-                case "water", "boat", "horse", "machete", "rope" -> 1;
+                case "water", "boat", "horse", "parka", "machete", "rope" -> 1;
                 default -> 0;
             };
         }else {
@@ -179,6 +182,7 @@ public class Shop
                 case "water" -> (int)(WATER_COST*discount);
                 case "rope" -> (int)(ROPE_COST*discount);
                 case "machete" -> (int)(MACHETE_COST*discount);
+                case "parka" -> (int)(PARKA_COST*discount);
                 case "horse" -> (int)(HORSE_COST*discount);
                 case "boat" -> (int)(BOAT_COST*discount);
                 default -> 0;

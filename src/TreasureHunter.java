@@ -68,10 +68,10 @@ public class TreasureHunter
             cheatMode = true;
         }
     }
-    public static boolean getCheatMode(){
+    public static boolean isCheatMode(){
         return cheatMode;
     }
-    public static boolean getEasyMode(){
+    public static boolean isEasyMode(){
         return  easyMode;
     }
 
@@ -109,7 +109,10 @@ public class TreasureHunter
         // as a parameter; note this also could have been done in the
         // constructor for Town, but this illustrates another way to associate
         // an object with an object of a different class
-        currentTown.hunterArrives(hunter);
+        if (!(currentTown.getWinCondition()==2)){
+            currentTown.hunterArrives(hunter);
+        }
+
     }
 
     /**
@@ -123,8 +126,21 @@ public class TreasureHunter
         String choice = "";
         int winCondition;
 
-        while (!(choice.equals("X") || choice.equals("x")))
+        while (!(choice.equalsIgnoreCase("X")))
         {
+            //updates winCondition after each move
+            winCondition = currentTown.getWinCondition();
+            if (winCondition == 1){
+                System.out.println(currentTown.getLatestNews());
+                System.out.println("Quite the treasure hunter yee are! Don't spend it all in one place! You win, game over!");
+                break;
+            }
+            if (winCondition == 2){
+                System.out.println(currentTown.getLatestNews());
+                System.out.println("You're broke! Try your luck again next time! Game over.");
+                break;
+            }
+
             System.out.println();
             System.out.println(currentTown.getLatestNews());
             System.out.println("***");
@@ -140,17 +156,6 @@ public class TreasureHunter
             System.out.print("What's your next move? ");
             choice = scanner.nextLine();
             processChoice(choice);
-
-            //updates winCondition after each move
-            winCondition = currentTown.getWinCondition();
-            if (winCondition == 1){
-                System.out.println(currentTown.getLatestNews());
-                System.out.println("Quite the treasure hunter yee are! Don't spend it all in one place! You win, game over!");
-            }
-            if (winCondition == 2){
-                System.out.println(currentTown.getLatestNews());
-                System.out.println("You're broke! Try your luck again next time! Game over.");
-            }
         }
     }
 
